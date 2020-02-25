@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>spring-boot-test</module>
+        <module>spring-boot-testing</module>
     </modules>
 
 </project>
