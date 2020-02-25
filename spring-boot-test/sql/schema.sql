@@ -1,0 +1,8 @@
+DROP TABLE IF EXISTS user;
+CREATE TABLE user (
+    user_id INT NOT NULL AUTO_INCREMENT,
+    username VARCHAR(100) NOT NULL DEFAULT '',
+    email VARCHAR(100) NOT NULL DEFAULT '',
+    phone VARCHAR(100) NOT NULL DEFAULT '',
+    PRIMARY KEY (user_id)
+);
