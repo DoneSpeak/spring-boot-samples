@@ -4,7 +4,6 @@ spring.datasource:
   url: jdbc:mysql://localhost:3306/tutorial_springboot_test
   driver-class-name: com.mysql.cj.jdbc.Driver
 
-
 spring.redis:
   host: 127.0.0.1
   port: 6379
@@ -24,3 +23,11 @@ spring.redis:
       time-between-eviction-runs: 30000
     shutdown-timeout: 200ms
 # redis end
+
+
+test.name-name: DDD
+bees360.com.system-config:
+  web-server: http://localhost:8080/bees360-web
+
+server:
+  port: 9090

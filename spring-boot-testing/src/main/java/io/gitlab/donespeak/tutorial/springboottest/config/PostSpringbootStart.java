@@ -17,7 +17,7 @@ import java.util.List;
  * @author Yang Guanrong
  * @date 2020/02/24 22:12
  */
-@Configuration
+// @Configuration
 public class PostSpringbootStart {
 
     @Autowired
