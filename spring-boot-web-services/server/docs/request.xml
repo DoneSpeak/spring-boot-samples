@@ -1,0 +1,9 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:wss="https://donespeak.github.io/spring-boot-web-services">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <wss:getCountryRequest>
+            <wss:name>Spain</wss:name>
+        </wss:getCountryRequest>
+    </soapenv:Body>
+</soapenv:Envelope>
