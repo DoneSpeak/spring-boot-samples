@@ -99,7 +99,7 @@
                             <goal>wsimport</goal>
                         </goals>
                         <configuration>
-                            <!-- 输出路径为：target/generated-sources/jaxb -->
+                            <!-- 输出路径为：target/generated-sources/wsimport -->
                             <packageName>${wsdl.package}.weather</packageName>
                             <wsdlDirectory>${wsdl.directory}</wsdlDirectory>
                             <wsdlFiles>
