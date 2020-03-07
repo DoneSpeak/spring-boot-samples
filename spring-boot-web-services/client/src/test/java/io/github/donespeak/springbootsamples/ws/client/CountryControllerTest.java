@@ -1,6 +1,6 @@
 package io.github.donespeak.springbootsamples.ws.client;
 
-import io.github.donespeak.springbootsamples.ws.client.wsdl.Country;
+import io.github.donespeak.springbootsamples.ws.client.wsdl.country.Country;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,6 +34,7 @@ public class CountryControllerTest {
         ResponseEntity<Country> response = restTemplate.getForEntity("/ws/countries", Country.class, params);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
+
         log.info("Result Response Country: " + response.getBody());
     }
 }

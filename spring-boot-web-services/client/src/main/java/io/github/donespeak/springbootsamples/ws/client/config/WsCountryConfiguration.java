@@ -21,7 +21,7 @@ public class WsCountryConfiguration {
     @Bean
     public Jaxb2Marshaller marshaller() {
         Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
-        marshaller.setContextPath("io.github.donespeak.springbootsamples.ws.client.wsdl");
+        marshaller.setContextPath("io.github.donespeak.springbootsamples.ws.client.wsdl.country");
         return marshaller;
     }
 

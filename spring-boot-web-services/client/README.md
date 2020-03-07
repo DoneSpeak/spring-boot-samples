@@ -24,4 +24,7 @@ Web Service Client
 <s:any minOccurs="2" maxOccurs="2" />
 ```
 
+参考：  
+- [关于cxf 连.net 的webservice生成客户端异常( undefined element declaration 's:schema')](https://www.cnblogs.com/hzhuxin/archive/2011/05/25/2057142.html)
+
 ### 通过maven整合

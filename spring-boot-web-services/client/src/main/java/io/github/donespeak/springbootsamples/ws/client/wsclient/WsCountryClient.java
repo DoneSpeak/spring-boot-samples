@@ -2,8 +2,8 @@ package io.github.donespeak.springbootsamples.ws.client.wsclient;
 
 import io.github.donespeak.springbootsamples.ws.client.config.WsCountryConfiguration;
 import io.github.donespeak.springbootsamples.ws.client.config.WsSchemaConst;
-import io.github.donespeak.springbootsamples.ws.client.wsdl.GetCountryRequest;
-import io.github.donespeak.springbootsamples.ws.client.wsdl.GetCountryResponse;
+import io.github.donespeak.springbootsamples.ws.client.wsdl.country.GetCountryRequest;
+import io.github.donespeak.springbootsamples.ws.client.wsdl.country.GetCountryResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
 import org.springframework.ws.soap.client.core.SoapActionCallback;

@@ -13,8 +13,7 @@
     <name>spring-boot-web-service-client</name>
 
     <properties>
-        <wsdl.directory>${basedir}/src/main/resources</wsdl.directory>
-        <wsdl.url>http://ws.webxml.com.cn/WebServices/WeatherWS.asmx?WSDL</wsdl.url>
+        <wsdl.directory>${basedir}/src/main/resources/wsdl</wsdl.directory>
         <wsdl.package>io.github.donespeak.springbootsamples.ws.client.wsdl</wsdl.package>
     </properties>
 
@@ -66,31 +65,51 @@
                         <goals>
                             <goal>generate</goal>
                         </goals>
+                        <configuration>
+                            <schemaLanguage>WSDL</schemaLanguage>
+                            <generatePackage>${wsdl.package}.country</generatePackage>
+                            <cleanPackageDirectories>true</cleanPackageDirectories>
+                            <schemas>
+                                <schema>
+                                    <fileset>
+                                        <!-- Defaults to schemaDirectory. -->
+                                        <directory>${wsdl.directory}</directory>
+                                        <!-- Defaults to schemaIncludes. -->
+                                        <includes>
+                                            <include>countries.wsdl</include>
+                                        </includes>
+                                        <!-- Defaults to schemaIncludes -->
+                                        <!--<excludes>-->
+                                        <!--<exclude>*.xs</exclude>-->
+                                        <!--</excludes>-->
+                                    </fileset>
+                                </schema>
+                            </schemas>
+                        </configuration>
                     </execution>
                 </executions>
-                <configuration>
-                    <schemaLanguage>WSDL</schemaLanguage>
-                    <generatePackage>${wsdl.package}</generatePackage>
-                    <generateDirectory>${basedir}/src/main/java</generateDirectory>
-                    <schemas>
-                        <schema>
-                            <fileset>
-                                <!-- Defaults to schemaDirectory. -->
-                                <directory>${wsdl.directory}</directory>
-                                <!-- Defaults to schemaIncludes. -->
-                                <includes>
-                                    <include>*.wsdl</include>
-                                </includes>
-                                <!-- Defaults to schemaIncludes -->
-                                <!--<excludes>-->
-                                <!--<exclude>*.xs</exclude>-->
-                                <!--</excludes>-->
-                            </fileset>
-                            <!-- 也可以直接通过url下载 -->
-                            <!-- <url>http://ws.webxml.com.cn/WebServices/WeatherWS.asmx?WSDL</url>-->
-                        </schema>
-                    </schemas>
-                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jaxws-maven-plugin</artifactId>
+                <version>2.6</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>wsimport</goal>
+                        </goals>
+                        <configuration>
+                            <!-- 输出路径为：target/generated-sources/jaxb -->
+                            <packageName>${wsdl.package}.weather</packageName>
+                            <wsdlDirectory>${wsdl.directory}</wsdlDirectory>
+                            <wsdlFiles>
+                                <wsdlFile>WeatherWS.wsdl</wsdlFile>
+                            </wsdlFiles>
+                            <keep>true</keep>
+                            <extension>true</extension>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

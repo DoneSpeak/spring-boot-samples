@@ -1,8 +1,8 @@
 package io.github.donespeak.springbootsamples.ws.client.controller;
 
 import io.github.donespeak.springbootsamples.ws.client.wsclient.WsCountryClient;
-import io.github.donespeak.springbootsamples.ws.client.wsdl.Country;
-import io.github.donespeak.springbootsamples.ws.client.wsdl.GetCountryResponse;
+import io.github.donespeak.springbootsamples.ws.client.wsdl.country.Country;
+import io.github.donespeak.springbootsamples.ws.client.wsdl.country.GetCountryResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
