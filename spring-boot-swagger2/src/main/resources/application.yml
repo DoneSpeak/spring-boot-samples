@@ -1,0 +1,11 @@
+swagger2:
+  enable: true
+  api-info:
+    title: Spring Boot Sample - Swagger2 Sample API
+    description: A sample to show how to use Spring Boot with Swagger2
+    version: 1.0
+    contact:
+      name: DoneSpeak
+      url: https://donespeak.gitlab.io/
+      email:
+

@@ -3,6 +3,8 @@ package io.gitlab.donespeak.springbootsamples.swagger2.controller;
 import io.gitlab.donespeak.springbootsamples.swagger2.controller.vo.IdeaSearchOption;
 import io.gitlab.donespeak.springbootsamples.swagger2.controller.vo.IdeaVo;
 import io.gitlab.donespeak.springbootsamples.swagger2.service.BadIdeaService;
+import io.gitlab.donespeak.springbootsamples.swagger2.swagger2.SwaggerApiTags;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +21,7 @@ import java.util.Map;
  * @author Yang Guanrong
  * @date 2020/03/17 01:20
  */
+@Api(value = "不推荐的Api设计方法", tags = {SwaggerApiTags.BAD_IDEA})
 @RestController
 @RequestMapping("/bad-ideas")
 public class BadIdeaController {

@@ -11,4 +11,7 @@ public class Idea extends PoBase {
 	private long id;
 	private String name;
 	private String caption;
+	private int status;
+	private String img;
+	private String attachment;
 }

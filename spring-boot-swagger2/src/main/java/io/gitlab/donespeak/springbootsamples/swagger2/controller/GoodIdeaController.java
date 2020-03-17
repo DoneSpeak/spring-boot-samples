@@ -3,6 +3,10 @@ package io.gitlab.donespeak.springbootsamples.swagger2.controller;
 import io.gitlab.donespeak.springbootsamples.swagger2.controller.vo.IdeaSearchOption;
 import io.gitlab.donespeak.springbootsamples.swagger2.controller.vo.IdeaVo;
 import io.gitlab.donespeak.springbootsamples.swagger2.service.GoodIdeaService;
+import io.gitlab.donespeak.springbootsamples.swagger2.swagger2.SwaggerApiTags;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +23,7 @@ import java.util.List;
  * @author Yang Guanrong
  * @date 2020/03/17 01:19
  */
+@Api(value = "推荐的Api设计方法", tags = {SwaggerApiTags.GOOD_IDEA})
 @RestController
 @RequestMapping("/good-ideas")
 public class GoodIdeaController {
@@ -32,7 +37,7 @@ public class GoodIdeaController {
 	}
 
 	@PostMapping("")
-	public IdeaVo create(IdeaVo vo) {
+	public IdeaVo create(@RequestBody IdeaVo vo) {
 		return goodIdeaService.created(vo).orElse(null);
 	}
 
