@@ -16,6 +16,7 @@
         <module>spring-boot-event</module>
         <module>spring-boot-web-services</module>
         <module>spring-boot-swagger2</module>
+        <module>spring-boot-intercept</module>
     </modules>
 
 </project>
