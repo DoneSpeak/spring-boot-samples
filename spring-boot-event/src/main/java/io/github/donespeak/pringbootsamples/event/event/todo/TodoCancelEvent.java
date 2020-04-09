@@ -1,4 +1,4 @@
-package io.github.donespeak.pringbootsamples.event.event;
+package io.github.donespeak.pringbootsamples.event.event.todo;
 
 import io.github.donespeak.pringbootsamples.event.entity.TodoItem;
 
@@ -6,9 +6,9 @@ import io.github.donespeak.pringbootsamples.event.entity.TodoItem;
  * @author Yang Guanrong
  * @date 2020/03/05 02:16
  */
-public class TodoCreatedEvent extends TodoEvent {
+public class TodoCancelEvent extends TodoEvent {
 
-    public TodoCreatedEvent(TodoItem source) {
+    public TodoCancelEvent(TodoItem source) {
         super(source);
     }
 }

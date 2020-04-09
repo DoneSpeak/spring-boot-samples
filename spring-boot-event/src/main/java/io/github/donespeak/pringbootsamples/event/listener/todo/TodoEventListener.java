@@ -1,14 +1,9 @@
-package io.github.donespeak.pringbootsamples.event.listener;
+package io.github.donespeak.pringbootsamples.event.listener.todo;
 
-import io.github.donespeak.pringbootsamples.event.entity.TodoItem;
-import io.github.donespeak.pringbootsamples.event.event.TodoCreatedEvent;
-import io.github.donespeak.pringbootsamples.event.event.TodoEventPublisher;
+import io.github.donespeak.pringbootsamples.event.event.todo.TodoCreatedEvent;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
 
 /**
  * @author Yang Guanrong

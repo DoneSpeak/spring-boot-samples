@@ -1,4 +1,4 @@
-package io.github.donespeak.pringbootsamples.event.event;
+package io.github.donespeak.pringbootsamples.event.event.todo;
 
 import io.github.donespeak.pringbootsamples.event.entity.TodoItem;
 import org.springframework.context.ApplicationEvent;

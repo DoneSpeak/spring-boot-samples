@@ -1,8 +1,8 @@
-package io.github.donespeak.pringbootsamples.event.controller;
+package io.github.donespeak.pringbootsamples.event.web.controller;
 
 import io.github.donespeak.pringbootsamples.event.entity.TodoItem;
-import io.github.donespeak.pringbootsamples.event.event.TodoCreatedEvent;
-import io.github.donespeak.pringbootsamples.event.event.TodoEventPublisher;
+import io.github.donespeak.pringbootsamples.event.event.todo.TodoCreatedEvent;
+import io.github.donespeak.pringbootsamples.event.event.todo.TodoEventPublisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
