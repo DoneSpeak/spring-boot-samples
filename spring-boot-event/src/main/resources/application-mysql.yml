@@ -1,0 +1,12 @@
+spring:
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        username: salak
+        password: Salacca
+        url: jdbc:mysql://localhost:3306/spring_boot_sample_event
+    jpa:
+        properties:
+            hibernate:
+                hbm2ddl:
+                    # update: 第一次加载hibernate时，根据model类自动创建表。以后加载hibernate会根据model类自动更新表，但不会删除旧行。
+                    auto: update

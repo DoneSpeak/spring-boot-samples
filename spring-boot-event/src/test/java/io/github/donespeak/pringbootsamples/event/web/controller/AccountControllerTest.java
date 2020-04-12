@@ -42,6 +42,6 @@ public class AccountControllerTest {
 			.param("sort", "age,desc")
 			.contentType(MediaType.APPLICATION_JSON_UTF8))
 			.andExpect(status().isOk())
-			.andExpect(jsonPath("$.length()").value(3));
+			.andExpect(jsonPath("$.length()").value(1));
 	}
 }

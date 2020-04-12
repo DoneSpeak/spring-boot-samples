@@ -1,7 +1,7 @@
 package io.github.donespeak.pringbootsamples.event.web.controller;
 
 import io.github.donespeak.pringbootsamples.event.entity.TodoItem;
-import io.github.donespeak.pringbootsamples.event.event.todo.TodoCreatedEvent;
+import io.github.donespeak.pringbootsamples.event.event.todo.TodoEvent;
 import io.github.donespeak.pringbootsamples.event.event.todo.TodoEventPublisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +22,7 @@ public class TodoController {
 
     @PostMapping("")
     public TodoItem creatTodo(@RequestBody TodoItem todoItem) {
-        todoEventPublisher.publish(new TodoCreatedEvent(todoItem));
+        todoEventPublisher.publish(new TodoEvent.TodoCreatedEvent(this, null));
         return todoItem;
     }
 }

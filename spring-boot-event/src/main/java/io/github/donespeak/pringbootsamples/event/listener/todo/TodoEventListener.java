@@ -1,6 +1,6 @@
 package io.github.donespeak.pringbootsamples.event.listener.todo;
 
-import io.github.donespeak.pringbootsamples.event.event.todo.TodoCreatedEvent;
+import io.github.donespeak.pringbootsamples.event.event.todo.TodoEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -14,12 +14,7 @@ import org.springframework.stereotype.Component;
 public class TodoEventListener {
 
     @EventListener
-    public void todoCreated(TodoCreatedEvent ev) {
-        log.info("receive event: " + ev);
-    }
-
-    @EventListener
-    public void todoCreated2(TodoCreatedEvent ev) {
+    public void todoCreated(TodoEvent.TodoCreatedEvent ev) {
         log.info("receive event: " + ev);
     }
 }
