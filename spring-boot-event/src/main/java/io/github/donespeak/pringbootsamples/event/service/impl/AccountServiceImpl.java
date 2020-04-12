@@ -2,20 +2,19 @@ package io.github.donespeak.pringbootsamples.event.service.impl;
 
 import java.util.List;
 
-import io.github.donespeak.pringbootsamples.event.event.account.NormalAccountEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import io.github.donespeak.pringbootsamples.event.core.exception.ServiceException;
 import io.github.donespeak.pringbootsamples.event.entity.Account;
 import io.github.donespeak.pringbootsamples.event.event.account.AccountEventData;
-import io.github.donespeak.pringbootsamples.event.event.account.ThrowExceptionAccountEvent;
+import io.github.donespeak.pringbootsamples.event.event.account.NormalAccountEvent;
 import io.github.donespeak.pringbootsamples.event.repository.AccountRepository;
 import io.github.donespeak.pringbootsamples.event.service.AccountService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author Yang Guanrong
@@ -30,12 +29,12 @@ public class AccountServiceImpl implements AccountService, ApplicationEventPubli
     @Autowired
     public AccountRepository accountRepository;
 
-    @Override
     @Transactional
+    @Override
     public Account createAccount(Account account) {
         accountRepository.save(account);
         try {
-            publisher.publishEvent(new NormalAccountEvent(this, new AccountEventData()));
+            publisher.publishEvent(new NormalAccountEvent(this, AccountEventData.builder().account(account).build()));
         } catch (Exception e) {
             // 捕获同步Listener抛出的异常
             throw new ServiceException(e.getMessage(), e);

@@ -46,7 +46,7 @@ public abstract class AccountEvent extends ApplicationEvent {
 }
 ```
 
-然后定义具体的发布事件。这里推荐使用类实现的方式来发布具体的事件，而不是在事件中使用`private String eventType`的方式发布。使用具体的类表示具体的事件，监听器只要监听具体的事件类即可，而无需再做判断，同时也不需要再另外维护事件类型列表。
+然后定义具体的发布事件。这里推荐使用类实现的方式来发布具体的事件，而不是在事件中使用`private String eventType`定义事件的类型。使用具体的类表示具体的事件，监听器只要监听具体的事件类即可，而无需再做判断，同时也不需要再另外维护事件类型列表。
 
 ```java
 public class AccountCreatedEvent extends AccountEvent {
@@ -81,7 +81,7 @@ public abstract class BaseEvent<T> extends ApplicationEvent {
 }
 ```
 
-然后再指令事件类型即可。
+然后再指定事件的泛型类型即可。
 ```java
 public class AccountCreatedEvent extends BaseEvent<AccountEventData> {
     public AccountCreatedEvent(Object source, AccountEventData eventData) {
@@ -235,12 +235,6 @@ public void doSomethingOnAccountEvent(AccountEvent event) {
     - `#root.args`, 表示方法参数，#root.args[0]表示第0个方法参数
     - `#<name>`, 如上面代码中的#event表示以参数名关联参数
 
-**`@Listener` 注解方法返回值**    
-
-> And there's an alternative way of publishing events. If we return a non-null value from a method annotated with @EventListener as the result, Spring Framework will send that result as a new event for us. Moreover, we can publish multiple new events by returning them in a collection as the result of event processing.
-> 
-> https://www.baeldung.com/spring-events
-
 ### ApplicationEventMulticaster 事件广播器
 
 事件广播器负责将`ApplicationEventPublisher`发布的事件广播给所有的监听器。如果没有提供事件广播器，Spring会自动使用`SimpleApplicationEventMulticaster`作为默认的事件广播器。
@@ -344,8 +338,6 @@ protected void publishEvent(Object event, @Nullable ResolvableType eventType) {
 }
 ```
 
-- [ ] AbstractApplicationContext是否是ApplicationEventPublisher的默认实现
-
 在前面我们可以知道，`SimpleApplicationEventMulticaster`是`ApplicationEventMulticaster`在Spring容器中的默认实现。理所当然地可以从中找到事件发布的真实方式。`multicastEvent`方法会找到监听当前事件的**所有**监听器，然后再执行执行监听方法。  
 
 `SimpleApplicationEventMulticaster`中有两个属性，`Executor taskExecutor`和`ErrorHandler errorHandler`。前者可以定义**所有监听器**是否异步执行，默认为null，等价于同步执行的`SyncTaskExecutor`，你也可以使用`SimpleAsyncTaskExecutor`将所有监听器设置为异步执行。但这里有一点非常重要，如果你设置了Executor为异步的，那么所有的监听器都会异步执行，监听器和调用类会处于不同的上下文，不同的事务中，除非你有办法让TaskExecutor支持。其实我们完全不用通过修改广播器taskExecutor的方式来让监听器异步，可以通过`@EnableAsync`启动异步，并`@Async`将监听器设置为异步执行。通过`@Async`的方式，可以自由地决定任意一个监听器是否为异步，而非暴力地让所有的监听器都异步化。  
@@ -366,8 +358,6 @@ public void multicastEvent(final ApplicationEvent event, @Nullable ResolvableTyp
 ```
 
 而`ErrorHandler errorHandler`则定义了在监听器发生异常之后的行为，在这里你可以看到，如果没有定义`errorHandler`的话，会直接抛到上一层。
-
-- [ ] 默认的ErrorHandler
 
 ```java
 protected void invokeListener(ApplicationListener<?> listener, ApplicationEvent event) {
@@ -410,9 +400,9 @@ private void doInvokeListener(ApplicationListener listener, ApplicationEvent eve
 
 ```java
 // 是谁，是谁让我所有的监听器都编程异步了。-》原来是有人修改了事件广播器的taskExecutor为异步的了。
-public class EventConfig {
+public class AsyncConfig {
 
-    @Bean(name = "applicationEventMulticaster")
+    @Bean
     public ApplicationEventMulticaster simpleApplicationEventMulticaster() {
         SimpleApplicationEventMulticaster eventMulticaster = new SimpleApplicationEventMulticaster();
         eventMulticaster.setTaskExecutor(new SimpleAsyncTaskExecutor());
@@ -446,40 +436,21 @@ public Account createAccount(Account account) {
 
 ### 异常与事务
 
-上面已经讲到，同步的listener如果发生异常，而且没有被ErrorHandler拦截的话，是会往上抛出的，直接在publishEvent方法中捕获即可。
+上面已经讲到，同步的listener如果发生异常，而且没有被ErrorHandler拦截的话，是会往上抛出的，可以直接在publishEvent方法调用处捕获。    
 
-- [ ] listener和publish方法是否在同一个事务中 -> listener回滚是否会让publish方法处回滚，publisher是否会让listener回滚
-- [ ] 不同的listener是否在同一事务中 -> 一个listener回滚是否会让其他的listener也回滚
-- [ ] 与事务隔离级别，事务传播行为
-
-使用`@TransactionalEventListener`是`@EventListener`的拓展，可以指定监听器和发布事件的方法的事务隔离级别。隔离级别确保数据的有效性。
-
-- AFTER_COMMIT (default) is used to fire the event if the transaction has completed successfully
-- AFTER_ROLLBACK – if the transaction has rolled back
-- AFTER_COMPLETION – if the transaction has completed (an alias for AFTER_COMMIT and AFTER_ROLLBACK)
-- BEFORE_COMMIT is used to fire the event right before transaction commit
-
-- [ ] 什么场景使用什么隔离级别，使用错误会造成什么后果
-
-`@TransactionalEventListener` 注解的说明
-
-- `fallbackExecution` 默认为false，指发布事件的方法没有事务控制时，监听器不进行监听事件，此为默认情况！ fallbackExecution=true，则指发布事件的方法没有事务控制时，监听方法仍可以监听事件进行处理。也就是说，`@TransactionalEventListener` 默认只会监听有事务的发布事件方法。
-
-```java
-// 默认情况，在事务中的Event将会被执行,其他情况不触发。fallbackExecution = true 让其他情况也可以执行。
-@TransactionalEventListener(fallbackExecution = true)
-public void afterRegisterSendMail(MessageEvent event) {
-    mailService.send(event);
-}
-```
-
-参考：
-- [在Spring中使用异步事件实现同步事务](https://www.jdon.com/dl/best/springevent.html) 异步可能引入的竞争条件
+在同步的场景下，listener的执行，其实就是普通方法的调用。那么事务的控制也是和普通的方法调用是一样的。如果想要让监听器在事务中，那么就在监听器方法上添加事务注解`@Transational`就可以了。具体的分析见Spring的事务传播行为。  
 
 异步
 ---
 
-启动异步
+既然前面讲到，监听器的执行其实就是一个普通方法的执行，那么将监听器声明为异步的方法也会和将一个普通方法声明为异步的方法一样，使用`@Async`。  
+
+需要明确的一点是，当监听器设置为异步之后，会导致该监听器方法和调用publishEvent的方法处于不同的事务中。其实就和普通异步没有太多区别啦。  
+
+### 使用@Async实现异步
+
+**启动异步**  
+
 ```java
 @EnableAsync
 @Configuration
@@ -500,41 +471,145 @@ public class AsyncConfig implements AsyncConfigurer {
         return executor;
     }
 
-	/**
-	 * 异常处理器
-	 */
-	@Override
+    /**
+     * 异常处理器
+     */
+    @Override
     public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
         return new SimpleAsyncUncaughtExceptionHandler();
     }
 }
 ```
 
-- 抛出异常与异常处理
+默认的`AsyncConfigurer`是`AsyncConfigurerSupport`，两个方法均返回了null。
 
-### 异常
+**设置一个监听器为异步**  
 
-事务
+```java
+@Component
+public class AccountListener {
+
+    @Async
+    @EventListener
+    public void sendEmailOnAccountCreatedEvent(AccountCreateEvent event) {
+        // 发送邮件
+        // do something else
+    }
+}
+```
+
+### 使用ApplicationEventMulticaster实现异步
+
+为`ApplicationEventMulticaster`指定一个异步的taskExecutor，将会让所有的监听器都变成异步执行。真心**不推荐**这种做法。
+
+```java
+public class AsyncConfig {
+
+    @Bean
+    public ApplicationEventMulticaster simpleApplicationEventMulticaster() {
+        SimpleApplicationEventMulticaster eventMulticaster = new SimpleApplicationEventMulticaster();
+        eventMulticaster.setTaskExecutor(new SimpleAsyncTaskExecutor());
+        return eventMulticaster;
+    }
+}
+```
+
+事件事务管理 @TransactionalEventListener
 ---
 
+### 定义
+使用`@TransactionalEventListener`是`@EventListener`的拓展，可以指定监听器和发布事件的方法的事务隔离级别。隔离级别确保数据的有效性。`@TransactionalEventListener`注解会将监听器声明为一个事务管理器（这部分有机会会在其他文章中说明）。  
+
+当一个监听器方法被`@TransactionalEventListener`注解时，那么这个监听器**只会在调用方为事务方法时执行**，如果调用方是非事务方法，则无法该监听器不会被通知。值得注意的是，虽然`@TransactionalEventListener`带有Transaction关键字，但这个方法**并没有声明监听器为Transactional的**。  
+
+```java
+@TransactionalEventListener
+public void afterRegisterSendMail(MessageEvent event) {
+    mailService.send(event);
+}
+```
+
+### 配置 @TransactionalEventListener
+
+除了含有与`@EventListener`相同的属性（classes, condition），该注解还提供了另外的两个属性`fallbackExecution`和`phase`。
+
+**@TransactionalEventListener注解属性：fallbackExecution**  
+
+定义：`fallbackExecution` 设置Listener是否要在没有事务的情况下处理event。  
+
+默认为false，表示当publishEvent所在方法没有事务控制时，该监听器不监听事件。通过设置`fallbackExecution=true`，可以让Listener在任何情况都可以执行。  
+
+```java
+@Transactional
+public void txMethod() {
+    publisher.publishEvent(new MessageEvent());
+}
+
+public void nonTxMethod() {
+    publisher.publishEvent(new MessageEvent());
+}
+
+// txMethod: 执行
+// nonTxMethod: 不执行
+@TransactionalEventListener
+public void afterRegisterSendMail(MessageEvent event) {
+    mailService.send(event);
+}
+
+// txMethod: 执行
+// nonTxMethod: 执行
+@TransactionalEventListener(fallbackExecution = true)
+public void afterRegisterSendMail(MessageEvent event) {
+    mailService.send(event);
+}
+```
+
+**@TransactionalEventListener注解属性：phase**  
+
+- `AFTER_COMMIT` - (default) 在事务完成之后触发事件。此时事务已经结束，监听器方法将找不到上一个事务
+- `AFTER_ROLLBACK` – 在事务回滚之后触发事件
+- `AFTER_COMPLETION` – 在事务完成之后触发事件 (含有 `AFTER_COMMIT`和`AFTER_ROLLBACK`)
+- `BEFORE_COMMIT` - 在事务提交之前触发事件，此时调用方方法的事务还存在，监听器方法可以找到该事务
+
+当你尝试在`@TransactionEventListener`方法中执行JPA的save方法时，你会得到如下错误：
+
+```java
+@EventListener
+@TransactionalEventListener
+public void doOnNormalEvent3(NormalAccountEvent event) {
+    Account account = new Account();
+    account.setPassword("33333");
+    account.setFirstName("333");
+    account.setLastName("333");
+    account.setEmail("33333@gr.com");
+
+    accountRepository.save(account);
+}
+```
+
+```
+Participating transaction failed - marking existing transaction as rollback-only
+Setting JPA transaction on EntityManager [SessionImpl(1991443937<open>)] rollback-only
+...
+org.springframework.dao.InvalidDataAccessApiUsageException: no transaction is in progress; nested exception is javax.persistence.TransactionRequiredException: no transaction is in progress
+```
 
 
-### 异常
+原因是`@TransactionalEventListener`默认是`AFTER_COMMIT`，也就是当前事务已经结束了，所以无法找到所在事务，只能执行rollback，因而无法成功将数据保存到数据库中。但如果你希望执行findAll()方法，那么会拿到调用方提交到数据库中的数据，但也拿不到该Listener中save的数据。也许你会想，我在这个方法上`@Transactional`不就可以了吗？目前的测试结果是也不行。具体原因会在写事务的文章中再另外讲解，这里暂不拓展。可以通过设置phase为`TransactionPhase.BEFORE_COMMIT`进行解决，这样的话调用方的事务就还没有结束。  
 
-开发原则
----
-
-- 必须能够知道触发Event的对象，及发布源。
-- 
-
-总结
----
-
-- 什么时候用异步，什么时候用同步
-- 事务
+```java
+@Transactional
+@TransactionalEventListener(fallbackExecution = true, phase = TransactionPhase.BEFORE_COMMIT)
+public void doOnNormalEvent3(NormalAccountEvent event) {
+    ...
+}
+```  
 
 参考
 ---
 
+- [在Spring中使用异步事件实现同步事务](https://www.jdon.com/dl/best/springevent.html) 异步可能引入的竞争条件
 - [Spring Events @www.baeldung.com](https://www.baeldung.com/spring-events)
 - [Spring事件体系 @blog.csdn.net](https://blog.csdn.net/caihaijiang/article/details/7460888)
+- [Spring事务事件监控](https://my.oschina.net/zhangxufeng/blog/1976076)
+- [SpringBoot系列 - 异步线程池](https://www.xncoding.com/2017/07/20/spring/sb-async.html)

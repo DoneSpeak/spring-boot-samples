@@ -30,16 +30,20 @@ public class AccountServiceTest {
 		account.setFirstName("gr");
 		account.setLastName("yang");
 		account.setPassword("xxxxxxx");
-		accountService.createAccount(account);
+		try {
+			accountService.createAccount(account);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
 		List<Account> accounts = accountService.listAccounts();
-		accounts.forEach(a -> log.info("{}", a));
-		Assert.assertEquals(accounts.size(), 1);
+		accounts.forEach(a -> log.info("TEST: {}", a));
+		Assert.assertEquals(2, accounts.size());
 	}
 
 	@Test
 	public void listAccounts() {
 		List<Account> accounts = accountService.listAccounts();
 		accounts.forEach(a -> log.info("{}", a));
-		Assert.assertEquals(accounts.size(), 0);
+		Assert.assertEquals(0, accounts.size());
 	}
 }
