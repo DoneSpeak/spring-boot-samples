@@ -17,6 +17,8 @@
         <module>spring-boot-web-services</module>
         <module>spring-boot-swagger2</module>
         <module>spring-boot-intercept</module>
+        <module>spring-boot-quartz</module>
+        <module>spring-boot-quartz-manager</module>
     </modules>
 
 </project>

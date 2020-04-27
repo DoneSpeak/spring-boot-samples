@@ -1,0 +1,57 @@
+server:
+  port: 9001
+spring:
+  thymeleaf:
+    mode: HTML
+    cache: false
+  #连接池配置
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    name: ownDataSource
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/spring_boot_quartz?useSSL=false&useUnicode=true
+      username: salak
+      password: Salacca
+      initial-size: 1                     #连接池初始大小
+      max-active: 20                      #连接池中最大的活跃连接数
+      min-idle: 1                         #连接池中最小的活跃连接数
+      max-wait: 60000                     #配置获取连接等待超时的时间
+      pool-prepared-statements: true    #打开PSCache，并且指定每个连接上PSCache的大小
+      max-pool-prepared-statement-per-connection-size: 20
+      validation-query: SELECT 1 FROM DUAL
+      validation-query-timeout: 30000
+      test-on-borrow: false             #是否在获得连接后检测其可用性
+      test-on-return: false             #是否在连接放回连接池后检测其可用性
+      test-while-idle: true             #是否在连接空闲一段时间后检测其可用性
+  quartz:
+    #相关属性配置
+    properties:
+      org.quartz:
+        scheduler:
+          instanceName: quartzScheduler
+          instanceId: AUTO
+        threadPool:
+          class: org.quartz.simpl.SimpleThreadPool
+          threadCount: 10
+          threadPriority: 5
+          threadsInheritContextClassLoaderOfInitializingThread: true
+        jobStore:
+          class: org.quartz.impl.jdbcjobstore.JobStoreTX
+          driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+          useProperties: true
+          misfireThreshold: 6000
+          tablePrefix: qrtz_
+          isClustered: true
+        plugin:
+          shutdownHook:
+            class: org.quartz.plugins.management.ShutdownHookPlugin
+            cleanShutdown: TRUE
+    job-store-type: jdbc # 使用jdbcJobStore，默认为 in-memory
+    jdbc:
+      initialize-schema: never # always 每次都会启动都会删除再重新创建，如果设置为never，需要找到quartz jar中脚本手动初始化数据库表
+      comment-prefix: '#'
+#      schema: # 可以提供自定义的数据库脚本
+logging:
+  level:
+    root: debug
