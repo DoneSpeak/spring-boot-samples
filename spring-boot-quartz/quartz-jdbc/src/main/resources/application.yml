@@ -29,29 +29,72 @@ spring:
     properties:
       org.quartz:
         scheduler:
+          # 可以为任意字符串，对于scheduler来说此值没有意义，但是可以区分同一系统中多个不同的实例，
+          # 如果使用了集群的功能，就必须对每一个实例使用相同的名称，这样使这些实例“逻辑上”是同一个scheduler。
           instanceName: quartzScheduler
           instanceId: AUTO
+          # 一个scheduler节点允许接收的trigger的最大数，默认是1，这个值越大，定时任务执行的越多，但代价是集群节点之间的不均衡。
+          # batchTriggerAcquisitionMaxCount: 1
+          # Job执行完毕，JobDataMap更新完（如果是StatefulJob）事务就会提交。默认值是false，可以在job类上使用@ExecuteInJTATransaction 注解，以便在各自的job上决定是否开启JTA事务。
+          # wrapJobExecutionInUserTransaction: false
         threadPool:
+          # 线程池的实例类，（一般使用SimpleThreadPool即可满足几乎所有用户的需求）
           class: org.quartz.simpl.SimpleThreadPool
+          # 不会动态增加
           threadCount: 10
+          # 线程优先级
           threadPriority: 5
+          # 加载任务代码的ClassLoader是否从外部继承
           threadsInheritContextClassLoaderOfInitializingThread: true
+          # 是否设置调度器线程为守护线程
+          # makeSchedulerThreadDaemon: true
         jobStore:
+          # 选择JDBC的存储方式
+          # JobStoreTX: application自己管理事务
+          # JobStoreCMT: application server管理事务，即全局JTA；
           class: org.quartz.impl.jdbcjobstore.JobStoreTX
+          # 使用 mysql_innodb
+          # 类似于Hibernate的dialect，用于处理DB之间的差异，StdJDBCDelegate能满足大部分的DB（授权）
           driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+          # JobDataMaps是否都为String类型
+          # （若是true的话，便可不用让更复杂的对象以序列化的形式保存到BLOB列中。以防序列化可能导致的版本号问题）
           useProperties: true
+          # #最大能忍受的触发超时时间，如果超时则认为“失误”
           misfireThreshold: 6000
+          # 存储相关信息表的前缀
           tablePrefix: qrtz_
+          # 是否是应用在集群中，当应用在集群中时必须设置为TRUE，否则会出错。
+          # 如果有多个Quartz实例在用同一套数据库时，必须设置为true。
           isClustered: true
+          # 只用于设置了isClustered为true的时候，设置一个频度（毫秒），用于实例报告给集群中的其他实例。
+          # 这会影响到侦测失败实例的敏捷度。默认是 15s
+          clusterCheckinInterval: 15000
+          # 这是JobStore能处理的错过触发的Trigger的最大数量。处理太多（2打）很快就会导致数据库表被锁定够长的时间，
+          # 这样会妨碍别的（还未错过触发）trigger执行的性能。
+#          maxMisfiresToHandleAtATime: 20
+          # 设置这个参数为true会告诉Quartz从数据源获取连接后不要调用它的setAutoCommit(false)方法。
+          # 在少数情况下是有用的，比如有一个驱动本来是关闭的，但是又调用这个关闭的方法。但是大部分情况下驱动都要求调用setAutoCommit(false)
+#          dontSetAutoCommitFalse: false
+          # 这必须是一个从LOCKS表查询一行并对这行记录加锁的SQL。假设没有设置，默认值如下。
+          # {0}会在运行期间被前面配置的TABLE_PREFIX所代替
+#          selectWithLockSQL: SELECT * FROM {0}LOCKS WHERE LOCK_NAME = ? FOR UPDATE
+          # 值为true时告知Quartz（当使用JobStoreTX或CMT）调用JDBC连接的setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE) 方法。这有助于某些数据库在高负载和长时间事务时锁的超时。
+#          txIsolationLevelSerializable: false
         plugin:
           shutdownHook:
             class: org.quartz.plugins.management.ShutdownHookPlugin
-            cleanShutdown: TRUE
+#            cleanShutdown: TRUE
     job-store-type: jdbc # 使用jdbcJobStore，默认为 in-memory
     jdbc:
       initialize-schema: never # always 每次都会启动都会删除再重新创建，如果设置为never，需要找到quartz jar中脚本手动初始化数据库表
       comment-prefix: '#'
 #      schema: # 可以提供自定义的数据库脚本
+    # 是否等待任务执行完毕后，容器才会关闭,
+    # 默认false，是否等待任务运行完毕后关闭Spring容器，若是为false的情况下，可能出现java.lang.IllegalStateException: JobStore is shutdown - aborting retry异常，推荐开启。
+    wait-for-jobs-to-complete-on-shutdown: false
+    # 配置的job是否覆盖已经存在的JOB信息
+    # quartz启动之后，会以数据库的为准，若该属性为false，则配置文件修改后不会起作用。
+    overwrite-existing-jobs: false
 logging:
   level:
     root: debug

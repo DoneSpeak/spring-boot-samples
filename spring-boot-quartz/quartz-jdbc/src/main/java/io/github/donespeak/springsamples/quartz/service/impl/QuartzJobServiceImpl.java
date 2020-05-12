@@ -1,5 +1,6 @@
 package io.github.donespeak.springsamples.quartz.service.impl;
 
+import io.github.donespeak.springsamples.quartz.job.LongTimeJob;
 import io.github.donespeak.springsamples.quartz.job.SendEmailSimpleJob;
 import io.github.donespeak.springsamples.quartz.job.SummaryCronJob;
 import io.github.donespeak.springsamples.quartz.service.QuartzJobService;
@@ -28,6 +29,26 @@ import org.springframework.stereotype.Service;
 public class QuartzJobServiceImpl implements QuartzJobService {
 
     private final SchedulerFactoryBean schedulerFactoryBean;
+
+    @Override
+    public void addLongTimeJobOnce() throws SchedulerException {
+        Scheduler scheduler = schedulerFactoryBean.getScheduler();
+
+        JobDetail job = JobBuilder.newJob(LongTimeJob.class)
+            .withIdentity("long_time_job_" + System.currentTimeMillis())
+            .requestRecovery()
+            .build();
+        job.getJobDataMap().put("current", System.currentTimeMillis() + "");
+
+        Trigger trigger = TriggerBuilder.newTrigger()
+            .withIdentity(job.getKey().getName(), "TRIGGER_GROUP")
+            .withSchedule(SimpleScheduleBuilder.simpleSchedule())
+            .startNow()
+            .build();
+
+        // job和trigger注册到scheduler
+        scheduler.scheduleJob(job, trigger);
+    }
 
     @Override
     public void addSimpleTriggerJob() throws SchedulerException {
@@ -65,5 +86,6 @@ public class QuartzJobServiceImpl implements QuartzJobService {
     // 无法持久化的方式
     public void addJobNonpersistent() {
         // 1. 通过注解定义的方式
+
     }
 }

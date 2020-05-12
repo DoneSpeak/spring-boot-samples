@@ -19,6 +19,7 @@
         <module>spring-boot-intercept</module>
         <module>spring-boot-quartz</module>
         <module>spring-boot-quartz-manager</module>
+        <module>spring-boot-files</module>
     </modules>
 
 </project>

@@ -21,4 +21,9 @@ public class QuartzController {
     public void loadAll() throws SchedulerException {
         quartzJobService.addSimpleTriggerJob();
     }
+
+    @PostMapping("longtime")
+    public void addLongTimeJob() throws SchedulerException {
+        quartzJobService.addLongTimeJobOnce();
+    }
 }
