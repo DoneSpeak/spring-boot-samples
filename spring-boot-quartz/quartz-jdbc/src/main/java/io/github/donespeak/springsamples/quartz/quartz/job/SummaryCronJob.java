@@ -1,4 +1,4 @@
-package io.github.donespeak.springsamples.quartz.job;
+package io.github.donespeak.springsamples.quartz.quartz.job;
 
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.JobExecutionContext;

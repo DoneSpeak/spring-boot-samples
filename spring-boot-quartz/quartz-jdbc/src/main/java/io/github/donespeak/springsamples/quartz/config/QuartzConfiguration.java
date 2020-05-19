@@ -6,6 +6,7 @@ import org.quartz.spi.JobFactory;
 import org.quartz.spi.TriggerFiredBundle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.boot.autoconfigure.quartz.SchedulerFactoryBeanCustomizer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
@@ -19,16 +20,10 @@ import org.springframework.scheduling.quartz.SpringBeanJobFactory;
 @Configuration
 public class QuartzConfiguration {
 
-    @Autowired
-    private SchedulerFactoryBean schedulerFactoryBean;
-
-    @Autowired
-    private JobFactory jobFactory;
-
     /**
      * 配置任务工厂实例
      */
-    @Bean
+    // @Bean
     public JobFactory jobFactory(ApplicationContext applicationContext) {
         /**
          * 采用自定义任务工厂 整合spring实例来完成构建任务
@@ -39,9 +34,16 @@ public class QuartzConfiguration {
         return jobFactory;
     }
 
-    @PostConstruct
-    public void postConstruct() {
-        schedulerFactoryBean.setJobFactory(jobFactory);
+    /**
+     * 设置 schedulerFactoryBean 的 jobFactory
+     * @param jobFactory
+     * @return
+     */
+    // @Bean
+    public SchedulerFactoryBeanCustomizer schedulerFactoryBeanCustomizer(JobFactory jobFactory) {
+        return schedulerFactoryBean -> {
+            schedulerFactoryBean.setJobFactory(jobFactory);
+        };
     }
 
     /**

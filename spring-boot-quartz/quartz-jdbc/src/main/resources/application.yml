@@ -10,7 +10,7 @@ spring:
     name: ownDataSource
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/spring_boot_quartz?useSSL=false&useUnicode=true
+      url: jdbc:mysql://localhost:3306/spring_boot_quartz?useSSL=false&useUnicode=true&serverTimezone=UTC
       username: salak
       password: Salacca
       initial-size: 1                     #连接池初始大小
@@ -58,6 +58,7 @@ spring:
           driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
           # JobDataMaps是否都为String类型
           # （若是true的话，便可不用让更复杂的对象以序列化的形式保存到BLOB列中。以防序列化可能导致的版本号问题）
+          # 设置为true，则可以不适用blob，但要求写入的数据类型均为string。如果希望设置为true，可以看下：https://www.jianshu.com/p/b01e7733b9e1
           useProperties: true
           # #最大能忍受的触发超时时间，如果超时则认为“失误”
           misfireThreshold: 6000
@@ -83,18 +84,18 @@ spring:
         plugin:
           shutdownHook:
             class: org.quartz.plugins.management.ShutdownHookPlugin
-#            cleanShutdown: TRUE
+            cleanShutdown: TRUE
     job-store-type: jdbc # 使用jdbcJobStore，默认为 in-memory
     jdbc:
-      initialize-schema: never # always 每次都会启动都会删除再重新创建，如果设置为never，需要找到quartz jar中脚本手动初始化数据库表
+      initialize-schema: always # always 每次都会启动都会删除再重新创建，如果设置为never，需要找到quartz jar中脚本手动初始化数据库表
       comment-prefix: '#'
 #      schema: # 可以提供自定义的数据库脚本
     # 是否等待任务执行完毕后，容器才会关闭,
     # 默认false，是否等待任务运行完毕后关闭Spring容器，若是为false的情况下，可能出现java.lang.IllegalStateException: JobStore is shutdown - aborting retry异常，推荐开启。
-    wait-for-jobs-to-complete-on-shutdown: false
+#    wait-for-jobs-to-complete-on-shutdown: false
     # 配置的job是否覆盖已经存在的JOB信息
     # quartz启动之后，会以数据库的为准，若该属性为false，则配置文件修改后不会起作用。
-    overwrite-existing-jobs: false
+#    overwrite-existing-jobs: false
 logging:
   level:
     root: debug

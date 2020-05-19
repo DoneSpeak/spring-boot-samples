@@ -1,4 +1,4 @@
-package io.github.donespeak.springsamples.quartz.job;
+package io.github.donespeak.springsamples.quartz.quartz.job;
 
 import io.github.donespeak.springsamples.quartz.repository.model.User;
 import lombok.extern.slf4j.Slf4j;
@@ -9,8 +9,6 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 
 import io.github.donespeak.springsamples.quartz.service.UserService;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.springframework.util.Assert;
 
 /**
  * @author DoneSpeak
