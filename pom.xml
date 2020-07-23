@@ -18,8 +18,10 @@
         <module>spring-boot-swagger2</module>
         <module>spring-boot-intercept</module>
         <module>spring-boot-quartz</module>
-        <module>spring-boot-quartz-manager</module>
+        <module>spring-tool-retry</module>
         <module>spring-boot-files</module>
+        <module>spring-boot-es</module>
+        <module>spring-boot-es-jpa</module>
     </modules>
 
 </project>

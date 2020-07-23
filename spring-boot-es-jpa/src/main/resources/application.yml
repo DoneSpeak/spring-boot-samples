@@ -1,0 +1,10 @@
+server:
+    port: 8888
+
+spring:
+    data:
+        elasticsearch:
+            cluster-nodes: 127.0.0.1:9300
+            repositories:
+                enabled: true
+        cluster-name: spring-sample-cluster

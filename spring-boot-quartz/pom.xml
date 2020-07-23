@@ -16,9 +16,9 @@
     <name>spring-boot-quartz</name>
 
     <modules>
-        <module>quartz-ram</module>
-        <module>quartz-jdbc</module>
-        <module>quartz-cluster</module>
+        <module>quartz-core</module>
+        <module>quartz-admin</module>
+        <module>quartz-admin-app</module>
         <module>quartz-manager</module>
     </modules>
 
