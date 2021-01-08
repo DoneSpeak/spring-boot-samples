@@ -1,0 +1,50 @@
+server:
+  port: 9898
+  servlet:
+    context-path: /api
+
+# ----------------------- logbook ---------------------
+logging:
+  level:
+    org.zalando.logbook: TRACE
+
+logbook:
+  include:
+    - /api/**
+    - /actuator/**
+  exclude:
+    - /actuator/health
+    - /api/admin/**
+  filter.enabled: true
+  secure-filter.enabled: true
+  format.style: json
+  # 只有状态大于等于minimum-status时才输出body
+  strategy: body-only-if-status-at-least
+  minimum-status: 400
+  obfuscate:
+    headers:
+      - Authorization
+      - X-Secret
+    parameters:
+      - access_token
+      - password
+  write:
+    chunk-size: 10
+    max-body-size: 1
+
+# ------------------------ actuator ---------------------
+
+management:
+  # 使用单独的接口和域名配置
+  server:
+    port: 9797
+    address: 127.0.0.1
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+    shutdown:
+      enabled: true
