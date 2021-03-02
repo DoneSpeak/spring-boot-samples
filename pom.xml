@@ -11,17 +11,19 @@
 
     <modules>
         <module>samples-parent</module>
-        <module>spring-boot-testing</module>
-        <module>spring-boot-redis</module>
         <module>spring-boot-event</module>
-        <module>spring-boot-web-services</module>
-        <module>spring-boot-swagger2</module>
-        <module>spring-boot-intercept</module>
-        <module>spring-boot-quartz</module>
-        <module>spring-tool-retry</module>
-        <module>spring-boot-files</module>
         <module>spring-boot-es</module>
         <module>spring-boot-es-jpa</module>
+        <module>spring-boot-files</module>
+        <module>spring-boot-intercept</module>
+        <module>spring-boot-jpa</module>
+        <module>spring-boot-logbook</module>
+        <module>spring-boot-quartz</module>
+        <module>spring-boot-redis</module>
+        <module>spring-tool-retry</module>
+        <module>spring-boot-swagger2</module>
+        <module>spring-boot-testing</module>
+        <module>spring-boot-web-services</module>
     </modules>
 
 </project>

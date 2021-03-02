@@ -9,4 +9,4 @@ swagger2:
       url: https://donespeak.gitlab.io/
       email:
 server:
-  port: 9090
+  port: 8989

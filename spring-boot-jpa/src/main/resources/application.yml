@@ -1,0 +1,21 @@
+spring:
+    #连接池配置
+    datasource:
+        type: com.alibaba.druid.pool.DruidDataSource
+        name: ownDataSource
+        druid:
+            driver-class-name: com.mysql.cj.jdbc.Driver
+            url: jdbc:mysql://localhost:3306/spring_boot_quartz?useSSL=false&useUnicode=true&serverTimezone=UTC
+            username: salak
+            password: Salacca
+            initial-size: 1                     #连接池初始大小
+            max-active: 20                      #连接池中最大的活跃连接数
+            min-idle: 1                         #连接池中最小的活跃连接数
+            max-wait: 60000                     #配置获取连接等待超时的时间
+            pool-prepared-statements: true    #打开PSCache，并且指定每个连接上PSCache的大小
+            max-pool-prepared-statement-per-connection-size: 20
+            validation-query: SELECT 1 FROM DUAL
+            validation-query-timeout: 30000
+            test-on-borrow: false             #是否在获得连接后检测其可用性
+            test-on-return: false             #是否在连接放回连接池后检测其可用性
+            test-while-idle: true             #是否在连接空闲一段时间后检测其可用性

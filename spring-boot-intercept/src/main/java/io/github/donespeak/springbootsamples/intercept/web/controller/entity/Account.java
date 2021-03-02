@@ -1,4 +1,4 @@
-package io.github.donespeak.springbootsamples.intercept.entity;
+package io.github.donespeak.springbootsamples.intercept.web.controller.entity;
 
 import lombok.Data;
 

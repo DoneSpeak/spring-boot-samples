@@ -1,0 +1,6 @@
+
+spring:
+  mail:
+    subtitle-prefix: "[hhahahah]"
+server:
+  port: 8083

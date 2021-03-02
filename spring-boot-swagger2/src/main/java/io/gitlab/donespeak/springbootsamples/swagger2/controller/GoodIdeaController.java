@@ -2,6 +2,7 @@ package io.gitlab.donespeak.springbootsamples.swagger2.controller;
 
 import io.gitlab.donespeak.springbootsamples.swagger2.controller.vo.IdeaSearchOption;
 import io.gitlab.donespeak.springbootsamples.swagger2.controller.vo.IdeaVo;
+import io.gitlab.donespeak.springbootsamples.swagger2.controller.vo.IdeaVoCreateUpdate;
 import io.gitlab.donespeak.springbootsamples.swagger2.service.GoodIdeaService;
 import io.gitlab.donespeak.springbootsamples.swagger2.swagger2.SwaggerApiTags;
 import io.swagger.annotations.Api;
@@ -24,6 +25,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Yang Guanrong
@@ -54,12 +56,12 @@ public class GoodIdeaController {
 	}
 
 	@PostMapping("/bulk")
-	public List<IdeaVo> create(@Validated @RequestBody List<@Valid IdeaVo> vos) {
-		return vos;
+	public List<IdeaVo> create(@Validated @RequestBody List<@Valid IdeaVoCreateUpdate> vos) {
+		return vos.stream().collect(Collectors.toList());
 	}
 
 	@PostMapping("")
-	public IdeaVo create(@Valid @RequestBody IdeaVo vo) {
+	public IdeaVo create(@Valid @RequestBody IdeaVoCreateUpdate vo) {
 		return goodIdeaService.created(vo).orElse(null);
 	}
 
@@ -69,7 +71,7 @@ public class GoodIdeaController {
 	}
 
 	@PutMapping("/{id:\\d+}")
-	public IdeaVo update(@PathVariable long id, @RequestBody IdeaVo ideaVo) {
+	public IdeaVo update(@PathVariable long id, @RequestBody IdeaVoCreateUpdate ideaVo) {
 		ideaVo.setId(id);
 		return goodIdeaService.update(ideaVo).orElse(null);
 	}
