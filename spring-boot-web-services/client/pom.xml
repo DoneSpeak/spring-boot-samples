@@ -56,39 +56,39 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-            <plugin>
-                <groupId>org.jvnet.jaxb2.maven2</groupId>
-                <artifactId>maven-jaxb2-plugin</artifactId>
-                <version>0.14.0</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <schemaLanguage>WSDL</schemaLanguage>
-                            <generatePackage>${wsdl.package}.country</generatePackage>
-                            <cleanPackageDirectories>true</cleanPackageDirectories>
-                            <schemas>
-                                <schema>
-                                    <fileset>
-                                        <!-- Defaults to schemaDirectory. -->
-                                        <directory>${wsdl.directory}</directory>
-                                        <!-- Defaults to schemaIncludes. -->
-                                        <includes>
-                                            <include>countries.wsdl</include>
-                                        </includes>
-                                        <!-- Defaults to schemaIncludes -->
-                                        <!--<excludes>-->
-                                        <!--<exclude>*.xs</exclude>-->
-                                        <!--</excludes>-->
-                                    </fileset>
-                                </schema>
-                            </schemas>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>org.jvnet.jaxb2.maven2</groupId>-->
+<!--                <artifactId>maven-jaxb2-plugin</artifactId>-->
+<!--                <version>0.14.0</version>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <goals>-->
+<!--                            <goal>generate</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            <schemaLanguage>WSDL</schemaLanguage>-->
+<!--                            <generatePackage>${wsdl.package}.country</generatePackage>-->
+<!--                            <cleanPackageDirectories>true</cleanPackageDirectories>-->
+<!--                            <schemas>-->
+<!--                                <schema>-->
+<!--                                    <fileset>-->
+<!--                                        &lt;!&ndash; Defaults to schemaDirectory. &ndash;&gt;-->
+<!--                                        <directory>${wsdl.directory}</directory>-->
+<!--                                        &lt;!&ndash; Defaults to schemaIncludes. &ndash;&gt;-->
+<!--                                        <includes>-->
+<!--                                            <include>countries.wsdl</include>-->
+<!--                                        </includes>-->
+<!--                                        &lt;!&ndash; Defaults to schemaIncludes &ndash;&gt;-->
+<!--                                        &lt;!&ndash;<excludes>&ndash;&gt;-->
+<!--                                        &lt;!&ndash;<exclude>*.xs</exclude>&ndash;&gt;-->
+<!--                                        &lt;!&ndash;</excludes>&ndash;&gt;-->
+<!--                                    </fileset>-->
+<!--                                </schema>-->
+<!--                            </schemas>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>jaxws-maven-plugin</artifactId>
