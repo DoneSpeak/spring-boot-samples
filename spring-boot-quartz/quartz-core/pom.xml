@@ -12,11 +12,6 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>io.github.donespeak.springbootsamples.quartz</groupId>
-			<artifactId>quartz-core</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-quartz</artifactId>
 		</dependency>
