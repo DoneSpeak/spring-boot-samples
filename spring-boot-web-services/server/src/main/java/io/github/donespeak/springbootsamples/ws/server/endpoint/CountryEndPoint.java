@@ -2,9 +2,9 @@ package io.github.donespeak.springbootsamples.ws.server.endpoint;
 
 import io.github.donespeak.springbootsamples.ws.server.core.SchemaConst;
 import io.github.donespeak.springbootsamples.ws.server.repository.CountryRepository;
-import io.github.donespeak.springbootsamples.ws.server.wsdl.Country;
-import io.github.donespeak.springbootsamples.ws.server.wsdl.GetCountryRequest;
-import io.github.donespeak.springbootsamples.ws.server.wsdl.GetCountryResponse;
+import io.github.donespeak.springbootsamples.webservice.entry.country.Country;
+import io.github.donespeak.springbootsamples.webservice.entry.country.GetCountryRequest;
+import io.github.donespeak.springbootsamples.webservice.entry.country.GetCountryResponse;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;

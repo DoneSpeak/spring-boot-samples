@@ -1,8 +1,8 @@
 package io.github.donespeak.springbootsamples.ws.server.repository.impl;
 
 import io.github.donespeak.springbootsamples.ws.server.repository.CountryRepository;
-import io.github.donespeak.springbootsamples.ws.server.wsdl.Country;
-import io.github.donespeak.springbootsamples.ws.server.wsdl.Currency;
+import io.github.donespeak.springbootsamples.webservice.entry.country.Country;
+import io.github.donespeak.springbootsamples.webservice.entry.country.Currency;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 

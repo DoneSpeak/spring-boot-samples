@@ -12,7 +12,7 @@
 
 	<properties>
 		<xsd.source>${basedir}/src/main/resources/schema</xsd.source>
-		<wsdl.package>io.github.donespeak.springbootsamples.ws.server.wsdl</wsdl.package>
+		<wsdl.package>io.github.donespeak.springbootsamples.webservice.entry</wsdl.package>
 	</properties>
 
 	<dependencies>
@@ -61,20 +61,35 @@
 				<version>2.5.0</version>
 				<executions>
 					<execution>
-						<id>xjc</id>
+						<id>xjc-country</id>
 						<goals>
 							<!-- Generated classes are placed in the target/generated-sources/jaxb/ directory. -->
 							<goal>xjc</goal>
 						</goals>
+                        <configuration>
+                            <!-- 输出路径为：target/generated-sources/jaxb -->
+                            <packageName>${wsdl.package}.country</packageName>
+                            <sources>
+                                <source>${xsd.source}/countries.xsd</source>
+                            </sources>
+                        </configuration>
 					</execution>
+<!--                    <execution>-->
+<!--                        <id>xjc-newone</id>-->
+<!--                        <goals>-->
+<!--                            &lt;!&ndash; Generated classes are placed in the target/generated-sources/jaxb/ directory. &ndash;&gt;-->
+<!--                            <goal>xjc</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            &lt;!&ndash; 输出路径为：target/generated-sources/jaxb &ndash;&gt;-->
+<!--                            <packageName>${wsdl.package}.newone</packageName>-->
+<!--                            <sources>-->
+<!--                                <source>${xsd.source}/newone.xsd</source>-->
+<!--                            </sources>-->
+<!--                            <clearOutputDir>false</clearOutputDir>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
 				</executions>
-				<configuration>
-					<!-- 输出路径为：target/generated-sources/jaxb -->
-					<packageName>${wsdl.package}</packageName>
-					<sources>
-						<source>${xsd.source}</source>
-					</sources>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>

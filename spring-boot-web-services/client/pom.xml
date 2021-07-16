@@ -109,6 +109,21 @@
                             <extension>true</extension>
                         </configuration>
                     </execution>
+<!--                    <execution>-->
+<!--                        <goals>-->
+<!--                            <goal>wsimport</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            &lt;!&ndash; 输出路径为：target/generated-sources/wsimport &ndash;&gt;-->
+<!--                            <packageName>${wsdl.package}.anewone</packageName>-->
+<!--                            <wsdlDirectory>${wsdl.directory}</wsdlDirectory>-->
+<!--                            <wsdlFiles>-->
+<!--                                <wsdlFile>anewone.wsdl</wsdlFile>-->
+<!--                            </wsdlFiles>-->
+<!--                            <keep>true</keep>-->
+<!--                            <extension>true</extension>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
                 </executions>
             </plugin>
         </plugins>

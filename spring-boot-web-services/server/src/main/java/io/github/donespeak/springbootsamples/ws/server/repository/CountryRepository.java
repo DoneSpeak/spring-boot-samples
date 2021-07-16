@@ -1,6 +1,6 @@
 package io.github.donespeak.springbootsamples.ws.server.repository;
 
-import io.github.donespeak.springbootsamples.ws.server.wsdl.Country;
+import io.github.donespeak.springbootsamples.webservice.entry.country.Country;
 
 /**
  * @author Yang Guanrong
