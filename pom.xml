@@ -24,6 +24,7 @@
         <module>spring-boot-swagger2</module>
         <module>spring-boot-testing</module>
         <module>spring-boot-web-services</module>
+        <module>spring-boot-i18n</module>
     </modules>
 
 </project>
