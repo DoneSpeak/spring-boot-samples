@@ -1,1 +1,22 @@
 debug: true
+
+spring:
+  messages:
+    basename: i18n/messages
+  profiles:
+    active: cookie
+---
+
+spring:
+  profiles: cookie
+  mvc:
+    locale-resolver: fixed
+    locale: zh_CN
+
+---
+
+spring:
+  profiles: cookie
+  mvc:
+    customer-locale-resolver: cookie
+    locale: zh_CN

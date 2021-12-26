@@ -25,6 +25,7 @@
         <module>spring-boot-testing</module>
         <module>spring-boot-web-services</module>
         <module>spring-boot-i18n</module>
+        <module>web</module>
     </modules>
 
 </project>
