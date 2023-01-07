@@ -26,6 +26,10 @@
         <module>spring-boot-web-services</module>
         <module>spring-boot-i18n</module>
         <module>web</module>
+        <module>spring-boot-log</module>
+        <module>log4j2</module>
+        <module>undertow</module>
+        <module>jetty</module>
     </modules>
 
 </project>
