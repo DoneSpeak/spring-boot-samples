@@ -1,6 +1,7 @@
 package io.github.donespeak.pringbootsamples.event.web.controller;
 
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * @author DoneSpeak

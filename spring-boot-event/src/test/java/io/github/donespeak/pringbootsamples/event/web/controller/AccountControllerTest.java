@@ -1,8 +1,7 @@
 package io.github.donespeak.pringbootsamples.event.web.controller;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -20,7 +19,6 @@ import org.springframework.web.context.WebApplicationContext;
  * @author Yang Guanrong
  * @date 2020/04/04 12:02
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public class AccountControllerTest {
 
@@ -29,7 +27,7 @@ public class AccountControllerTest {
 
 	private MockMvc mockMvc;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 		mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
 	}

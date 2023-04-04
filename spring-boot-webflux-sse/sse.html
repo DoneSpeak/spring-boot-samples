@@ -1,0 +1,43 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Server-sent events demo</title>
+</head>
+<body>
+<button>Close the connection</button>
+
+<ul>
+</ul>
+
+<script>
+    var button = document.querySelector("button");
+    var eventList = document.querySelector('ul');
+
+    var evtSource = new EventSource('http://127.0.0.1:8080/flux/sse-emitter');
+
+    evtSource.onmessage = function(e) {
+        console.log("data:"+e.data);
+        var newElement = document.createElement("li");
+        newElement.innerHTML = "default data  : " + e.data;
+        eventList.appendChild(newElement);
+    };
+    evtSource.onopen = function(){
+        console.log("connection opened")
+    }
+    evtSource.onerror = function(){
+        console.log("connection error");
+    }
+    button.onclick = function() {
+        console.log("connnection closed")
+        evtSource.close();
+    };
+
+    evtSource.addEventListener("ping", function(e) {
+          var newElement = document.createElement("li");
+    newElement.innerHTML = "ping event data " +e.data;
+    eventList.appendChild(newElement);
+    });
+
+</script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+values:
+  mapping:
+    "[H.*]": hh
+    "[S.*]": SaSa

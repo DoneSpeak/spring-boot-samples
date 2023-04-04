@@ -30,6 +30,8 @@
         <module>log4j2</module>
         <module>undertow</module>
         <module>jetty</module>
+        <module>fasterjson</module>
+        <module>spring-boot-webflux-sse</module>
     </modules>
 
 </project>
